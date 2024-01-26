@@ -1,5 +1,7 @@
+import { useRef } from "react";
 import Input from "../../shared/input";
 import { TProduct } from "../../types/product.type";
+import Button from "../../shared/button";
 
 type Props = {
   totalNumber: number | undefined;
@@ -8,16 +10,22 @@ type Props = {
 };
 
 export default function Navbar(props: Props) {
+  const ref = useRef<HTMLInputElement | null>(null);
+  const handleSearch = () => {
+    props.setValue(ref.current?.value === undefined ? "" : ref.current.value);
+  };
   return (
     <div className="bg-blue-400 p-5">
       <div className="flex items-center justify-between">
         <div>
           <Input
+            ref={ref}
             padding="sm"
             placeholderValue="Enter character to search ..."
-            rounded="md"
-            setValue={props.setValue}
           />
+          <Button border="none" onClick={handleSearch}>
+            Search
+          </Button>
         </div>
         <div className="relative">
           <svg

@@ -4,23 +4,15 @@ import Navbar from "./components/Navbar";
 import Product from "./components/Product";
 import { ProductModel } from "./models/product.model";
 import { getProducts } from "./services/product.api";
-import useDebounce from "./hooks/useDebounce";
 import Button from "./shared/button";
 import { TProduct } from "./types/product.type";
-
-type TPagination = {
-  _page: number;
-  _limit: number;
-  _totalRows: number;
-};
 
 function App() {
   const [products, setProducts] = useState<ProductModel[] | undefined>();
   const [value, setValue] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number[]>([]);
   const [activePage, setActivePage] = useState<number>(1);
-  const [cart , setCart] = useState<TProduct[]>([])
-  const debounce = useDebounce(value, 1000);
+  const [cart, setCart] = useState<TProduct[]>([]);
 
   useEffect(() => {
     setTotalPage([]);
@@ -41,14 +33,21 @@ function App() {
       }
       setTotalPage(array);
     });
-  }, [debounce, activePage]);
+  }, [activePage,value]);
 
   return (
     <div className="bg-gray-100">
-      <Navbar totalNumber={products?.length} cart={cart} setValue={setValue}/>
+      <Navbar totalNumber={products?.length} cart={cart} setValue={setValue} />
       <div className="flex items-center justify-center flex-wrap gap-10 my-5">
         {products?.map((product: ProductModel) => {
-          return <Product  cart={cart} setCart={setCart}  key={product.id} product={product} />;
+          return (
+            <Product
+              cart={cart}
+              setCart={setCart}
+              key={product.id}
+              product={product}
+            />
+          );
         })}
       </div>
       <div className="flex justify-center">

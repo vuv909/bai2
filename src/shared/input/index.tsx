@@ -10,7 +10,6 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   padding?: "sm" | "md" | "lg" | "xl";
   placeholderValue?: string;
   rounded?: "sm" | "md" | "lg" | "xl";
-  setValue: (value: string) => void;
 };
 
 const variantStyles = cva(["outline-none"], {
@@ -69,7 +68,6 @@ const Input = forwardRef<HTMLInputElement, Props>(
       padding,
       placeholderValue,
       rounded,
-      setValue,
     },
     ref
   ) => {
@@ -83,7 +81,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
       rounded,
     });
 
-      return <input className={classStyles} placeholder={placeholderValue} onChange={(e)=>setValue(e.target.value)}/>;
+    return (
+      <input ref={ref} className={classStyles} placeholder={placeholderValue} />
+    );
   }
 );
 
