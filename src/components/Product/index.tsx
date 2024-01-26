@@ -1,10 +1,27 @@
 import { ProductModel } from "../../models/product.model";
-
+import Button from "../../shared/button";
+import { TProduct } from "../../types/product.type";
 type Props = {
   product: ProductModel;
+  cart: TProduct[];
+  setCart: (params: TProduct[]) => void;
 };
 
 export default function Product(props: Props) {
+  const handleAddToCart = (): void => {
+    const updatedCart = [
+      ...props.cart,
+      {
+        productId: props.product.id,
+        category: props.product.category,
+        title: props.product.title,
+        description: props.product.description,
+        price: props.product.price,
+      },
+    ];
+
+    props.setCart(updatedCart);
+  };
   return (
     <div className="border border-gray-300 w-56 rounded-md bg-white">
       <img
@@ -18,9 +35,9 @@ export default function Product(props: Props) {
           : props.product.title}
       </p>
       <div className="flex justify-center mb-3 mt-8">
-        <button className="p-2 bg-green-500 hover:bg-green-300 rounded-lg text-center text-white">
+        <Button hover="primaryHover" onClick={handleAddToCart}>
           Thêm vào giỏ hàng
-        </button>
+        </Button>
       </div>
     </div>
   );
